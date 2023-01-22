@@ -1,6 +1,8 @@
 import React                  from 'react';
 import Header                 from './Header';
 import Main                   from './Main';
+import Register               from './Register';
+import Login                  from './Login';
 import Footer                 from './Footer';
 import AddPlacePopup          from './AddPlacePopup';
 import ImagePopup             from './ImagePopup';
@@ -9,6 +11,7 @@ import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
 import api                    from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { Routes, Route }      from 'react-router-dom';
 
 function App() {
 
@@ -213,14 +216,20 @@ function App() {
 
         <Header />
 
-        <Main onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onDeleteClick={handleDeleteClick}
-              onCardLike={handleCardLike}
-              cards={cards}
-        />
+        <Routes>
+          <Route path="/" element={        
+            <Main onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onDeleteClick={handleDeleteClick}
+                  onCardLike={handleCardLike}
+                  cards={cards}
+             />}
+          />
+          <Route path="/sign-up" element={<Register />} />
+          <Route path="/sign-in" element={<Login />} />
+        </Routes>
 
         <Footer />
 
