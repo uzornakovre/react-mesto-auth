@@ -9,7 +9,7 @@ import ImagePopup             from './ImagePopup';
 import EditProfilePopup       from './EditProfilePopup';
 import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
-import api                    from '../utils/api';
+import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes, Route }      from 'react-router-dom';
 
@@ -217,21 +217,22 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={        
-            <Main onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  onCardClick={handleCardClick}
-                  onDeleteClick={handleDeleteClick}
-                  onCardLike={handleCardLike}
-                  cards={cards}
-             />}
+          <Route path="/" element={
+            <>        
+              <Main onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onDeleteClick={handleDeleteClick}
+                    onCardLike={handleCardLike}
+                    cards={cards}
+                />
+                <Footer />
+             </>}
           />
           <Route path="/sign-up" element={<Register />} />
           <Route path="/sign-in" element={<Login />} />
         </Routes>
-
-        <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen}
                           onClose={closeAllPopups}
