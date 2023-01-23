@@ -9,6 +9,7 @@ import ImagePopup             from './ImagePopup';
 import EditProfilePopup       from './EditProfilePopup';
 import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
+import ProtectedRouteElement  from './ProtectedRoute';
 import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes,
@@ -220,22 +221,21 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={!loggedIn ? <Navigate to="/sign-in" replace /> :
-            <>        
-              <Main onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                    onDeleteClick={handleDeleteClick}
-                    onCardLike={handleCardLike}
-                    cards={cards}
-                />
-                <Footer />
-             </>}
-          />
+          <Route path="*" element={<ProtectedRouteElement element={  
+            <Main onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onDeleteClick={handleDeleteClick}
+                  onCardLike={handleCardLike}
+                  cards={cards}
+            />
+          } loggedIn={loggedIn} />}/>
           <Route path="/sign-up" element={<Register />} />
           <Route path="/sign-in" element={<Login />} />
         </Routes>
+
+        {loggedIn && <Footer />}
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen}
                           onClose={closeAllPopups}
