@@ -54,7 +54,7 @@ function EditAvatarPopup({ isOpen,
              className={`popup__form-input popup__form-input_content_avatar ${
                avInputInit && !isValid && 'popup__form-input_error'
              }`}
-             id="avatar"
+             id="avatar-url"
              name="avatar-url"
              placeholder="Ссылка на аватар"
              value={avatarLink || ''}

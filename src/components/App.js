@@ -11,7 +11,9 @@ import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
 import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { Routes, Route }      from 'react-router-dom';
+import { Routes,
+         Route, 
+         Navigate }           from 'react-router-dom';
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
   const [avatarIsLoading,         setAvatarIsLoading      ] = React.useState(false);
   const [cardDataIsLoading,       setCardDataIsLoading    ] = React.useState(false);
   const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = React.useState(false);
+  const [loggedIn,                setLoggedIn             ] = React.useState(false);
 
   // Получение данных с сервера о пользователе и карточках
 
@@ -217,7 +220,7 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={
+          <Route path="/" element={!loggedIn ? <Navigate to="/sign-in" replace /> :
             <>        
               <Main onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddPlaceClick}
