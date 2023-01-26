@@ -13,7 +13,8 @@ import ProtectedRouteElement  from './ProtectedRoute';
 import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes,
-         Route, 
+         Route,
+         Link,
          useNavigate }        from 'react-router-dom';
 import { auth } from '../utils/auth';
 
@@ -36,12 +37,18 @@ function App() {
   const [userEmail,               setUserEmail            ] = React.useState('');
   const navigate                                            = useNavigate();
 
-  // Обработчик входа на сайт, проверка токена
+  // Обработчик входа/выхода на сайте, проверка токена
 
   function handleLogin(email) {
     setLoggedIn(true);
-    setUserEmail(email);
+    // setUserEmail(email);
   }
+
+  function handleLogout() {
+    setLoggedIn(false);
+    localStorage.removeItem('jwt');
+  }
+
 
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
@@ -56,10 +63,13 @@ function App() {
     }
   }
 
-  // Получение данных с сервера о пользователе, карточках и токене
-
   React.useEffect(() => {
     tokenCheck();
+  }, []);
+
+  // Получение данных с сервера о пользователе и карточках
+
+  React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
@@ -242,19 +252,22 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
 
-        <Header userEmail={userEmail} />
+        <Header>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <p className='header__email'>{userEmail}</p>
+                <button className="header__link header__link_logged-in"
+                        onClick={handleLogout}
+                >Выйти</button>
+              </>
+            } />
+            <Route path="/sign-up" element={<Link to="/sign-in" className="header__link">Войти</Link>} />
+            <Route path="/sign-in" element={<Link to="/sign-up" className="header__link">Регистрация</Link>} />
+          </Routes>
+        </Header>
 
         <Routes>
-          {/* <Route path="/" element={loggedIn ?             
-            <Main onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  onCardClick={handleCardClick}
-                  onDeleteClick={handleDeleteClick}
-                  onCardLike={handleCardLike}
-                  cards={cards}
-            /> : <Navigate to="/sign-in" replace />}
-          /> */}
           <Route path="/" 
                  element={<ProtectedRouteElement 
                    element={Main}                                
