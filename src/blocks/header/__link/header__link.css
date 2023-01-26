@@ -1,5 +1,8 @@
 .header__link {
   text-decoration: none;
+  background-color: inherit;
+  border: none;
+  padding: 0;
   color: #FFF;
   font-size: 18px;
   line-height: 1.22;

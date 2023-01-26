@@ -1,5 +1,6 @@
-import React    from "react";
-import { Link } from "react-router-dom";
+import React                 from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth }              from '../utils/auth'
 // import InfoToolTip from "./InfoToolTip";
 
 function Register() {
@@ -13,70 +14,106 @@ function Register() {
   const [emailError, setEmailError] = React.useState('');
   const [passError,  setPassError ] = React.useState('');
   const isValid                     = emailError === '' && passError === '';
+  const [formValue,  setFormValue ] = React.useState({
+    email: '',
+    password: ''
+  })
+  const navigate = useNavigate();
 
   // Отправка формы
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    console.log(formValue);
 
-    emailRef.current.value = '';
-    passRef.current.value = '';
+    auth.register(formValue.email, formValue.password)
+    .then((res) => {
+      console.log(res);
+      navigate('/sign-in', {replace: true});
+    })
+    .catch((error) =>{
+      console.log(error);
+    })
+    
+    // emailRef.current.value = '';
+    // passRef.current.value = '';
   }
 
   // Обновление стейтов при открытии окна
 
-  React.useEffect(() => {
-    setEmail('');
-    setPassword('');
-    setEmailInit(false);
-    setPassInit(false);
-    setEmailError(emailRef.current.validationMessage);
-    setPassError(passRef.current.validationMessage);
-  }, [])
+  // React.useEffect(() => {
+  //   setEmail('');
+  //   setPassword('');
+  //   setEmailInit(false);
+  //   setPassInit(false);
+  //   setEmailError(emailRef.current.validationMessage);
+  //   setPassError(passRef.current.validationMessage);
+  // }, [])
 
   // Обработчики изменений полей ввода
 
-  function handleChangeEmail (evt) {
-    setEmail(evt.target.value);
-    setEmailInit(true);
-    setEmailError(emailRef.current.validationMessage);
+  function handleChange(evt) {
+    console.log(formValue);
+    setFormValue({
+      ...formValue,
+      [evt.target.name]: evt.target.value
+    }) 
   }
 
-  function handleChangePassword (evt) {
-    setPassword(evt.target.value);
-    setPassInit(true);
-    setPassError(passRef.current.validationMessage);
-  }
+//  function handleChangeEmail (evt) {
+//     setEmail(evt.target.value);
+//     setEmailInit(true);
+//     setEmailError(emailRef.current.validationMessage);
+//     setFormValue({
+//       ...formValue,
+//       [evt.target.name]: email
+//     })
+//   }
+
+//  function handleChangePassword (evt) {
+//     setPassword(evt.target.value);
+//     setPassInit(true);
+//     setPassError(passRef.current.validationMessage);
+//     setFormValue({
+//       ...formValue,
+//       [evt.target.name]: password
+//     })
+//   }
 
   return (
     <>
       <form className="auth"
             onSubmit={handleSubmit}
+            noValidate
       >
         <h2 className="auth__title">Регистрация</h2>
         <input type="email"
+               name="email"
                className={`auth__input auth__input_type_email ${
                  emailInit && emailError !== '' && 'auth__input_error'   
                }`}
                placeholder="Email"
-               onChange={handleChangeEmail}
-               value={email || ''}
-               ref={emailRef}
+               onChange={handleChange}
+              //  value={email || ''}
+              //  ref={emailRef}
+               defaultValue={''}
                required
         />
         <span className="auth__input-error">
           {emailInit && `${emailError}`}
         </span>
         <input type="password"
+               name="password"
                className={`auth__input auth__input_type_password ${
                  passInit && passError !== '' && 'auth__input_error'   
                }`}
                placeholder="Пароль"
                minLength="4"
                maxLength="12"
-               onChange={handleChangePassword}
-               value={password || ''}
-               ref={passRef}
+               onChange={handleChange}
+              //  value={password || ''}
+              //  ref={passRef}
+               defaultValue={''}
                required
         />
         <span className="auth__input-error">

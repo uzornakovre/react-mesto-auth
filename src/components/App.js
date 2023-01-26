@@ -14,7 +14,8 @@ import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes,
          Route, 
-         Navigate }           from 'react-router-dom';
+         useNavigate }        from 'react-router-dom';
+import { auth } from '../utils/auth';
 
 function App() {
 
@@ -32,10 +33,33 @@ function App() {
   const [cardDataIsLoading,       setCardDataIsLoading    ] = React.useState(false);
   const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = React.useState(false);
   const [loggedIn,                setLoggedIn             ] = React.useState(false);
+  const [userEmail,               setUserEmail            ] = React.useState('');
+  const navigate                                            = useNavigate();
 
-  // Получение данных с сервера о пользователе и карточках
+  // Обработчик входа на сайт, проверка токена
+
+  function handleLogin(email) {
+    setLoggedIn(true);
+    setUserEmail(email);
+  }
+
+  function tokenCheck() {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setLoggedIn(true);
+            navigate('/', {replace: true});
+          }
+        })
+    }
+  }
+
+  // Получение данных с сервера о пользователе, карточках и токене
 
   React.useEffect(() => {
+    tokenCheck();
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
@@ -218,10 +242,10 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
 
-        <Header />
+        <Header userEmail={userEmail} />
 
         <Routes>
-          <Route path="*" element={<ProtectedRouteElement element={  
+          {/* <Route path="/" element={loggedIn ?             
             <Main onEditProfile={handleEditProfileClick}
                   onAddPlace={handleAddPlaceClick}
                   onEditAvatar={handleEditAvatarClick}
@@ -229,10 +253,22 @@ function App() {
                   onDeleteClick={handleDeleteClick}
                   onCardLike={handleCardLike}
                   cards={cards}
-            />
-          } loggedIn={loggedIn} />}/>
+            /> : <Navigate to="/sign-in" replace />}
+          /> */}
+          <Route path="/" 
+                 element={<ProtectedRouteElement 
+                   element={Main}                                
+                   loggedIn={loggedIn}                              
+                   onEditProfile={handleEditProfileClick}
+                   onAddPlace={handleAddPlaceClick}
+                   onEditAvatar={handleEditAvatarClick}
+                   onCardClick={handleCardClick}
+                   onDeleteClick={handleDeleteClick}
+                   onCardLike={handleCardLike}
+                   cards={cards} />}
+          />
           <Route path="/sign-up" element={<Register />} />
-          <Route path="/sign-in" element={<Login />} />
+          <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
         </Routes>
 
         {loggedIn && <Footer />}
