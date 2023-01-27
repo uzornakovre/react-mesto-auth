@@ -2,14 +2,10 @@ import React                 from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthForm              from './AuthForm';
 import { auth }              from '../utils/auth';
-// import InfoToolTip from "./InfoToolTip";
 
 function Register() {
 
-  const [formValue,  setFormValue ] = React.useState({
-    email: '',
-    password: ''
-  })
+  const [formValue, setFormValue] = React.useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   // Отправка формы
@@ -19,16 +15,12 @@ function Register() {
     console.log(formValue);
 
     auth.register(formValue.email, formValue.password)
-    .then((res) => {
-      console.log(res);
-      navigate('/sign-in', {replace: true});
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
-    
-    // emailRef.current.value = '';
-    // passRef.current.value = '';
+      .then(() => {
+        navigate('/sign-in', {replace: true});
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
   }
 
   // Обработчик изменений полей ввода

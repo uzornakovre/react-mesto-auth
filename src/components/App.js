@@ -16,9 +16,11 @@ import { Routes,
          Route,
          Link,
          useNavigate }        from 'react-router-dom';
-import { auth } from '../utils/auth';
+import { auth }               from '../utils/auth';
 
 function App() {
+
+  // TODO ID !!!!
 
   const [isEditProfilePopupOpen,  setEditProfilePopupState] = React.useState(false);
   const [isAddPlacePopupOpen,     setAddPlacePopupState   ] = React.useState(false);
@@ -34,20 +36,19 @@ function App() {
   const [cardDataIsLoading,       setCardDataIsLoading    ] = React.useState(false);
   const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = React.useState(false);
   const [loggedIn,                setLoggedIn             ] = React.useState(false);
-  const [userEmail,               setUserEmail            ] = React.useState('');
+  const [userData,                setUserData             ] = React.useState({email: '', id: ''});
   const navigate                                            = useNavigate();
 
   // Обработчик входа/выхода на сайте, проверка токена
 
   function handleLogin() {
-    setLoggedIn(true);
+    tokenCheck();
   }
 
   function handleLogout() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
   }
-
 
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt');
@@ -56,8 +57,11 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
-            setUserEmail(res.data.email);
             navigate('/', {replace: true});
+            setUserData({
+              email: res.data.email,
+              id:    res.data._id
+            });
           }
         })
         .catch((error) => {
@@ -66,14 +70,12 @@ function App() {
     }
   }
 
+  // Получение данных с сервера о пользователе и карточках, проверка токена
+
   React.useEffect(() => {
     tokenCheck();
-  }, []);
-
-  // Получение данных с сервера о пользователе и карточках
-
-  React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
         setCards(cardsData);
@@ -81,7 +83,8 @@ function App() {
       .catch((error) => {
         console.log(`Ошибка при получении данных: ${error}`);
       });
-  }, []);
+    }
+  }, [loggedIn]);
 
   // Обработчик обновления данных о пользователе
 
@@ -166,7 +169,7 @@ function App() {
 
   function handleCardDelete(card) {
     setCardRemoveIsLoading(true);
-    const isOwn = card.owner._id === currentUser._id;
+    const isOwn = card.owner._id === userData._id;
 
     if (isOwn) {
       api.deleteCard(card._id)
@@ -259,7 +262,7 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
-                <p className='header__email'>{userEmail}</p>
+                <p className='header__email'>{userData.email}</p>
                 <button className="header__link header__link_logged-in"
                         onClick={handleLogout}
                 >Выйти</button>

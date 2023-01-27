@@ -1,5 +1,5 @@
-import React                 from 'react';
-import { useNavigate } from 'react-router-dom';
+import React       from 'react';
+import InfoToolTip from './InfoToolTip';
 
 function AuthForm({ handleSubmit, 
                     handleChange, 
@@ -108,6 +108,7 @@ function AuthForm({ handleSubmit,
         </button>
         {children}
       </form>
+      <InfoToolTip />
     </>
   )
 }

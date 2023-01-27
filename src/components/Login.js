@@ -17,17 +17,18 @@ function Login ({ handleLogin }) {
     evt.preventDefault();
 
     auth.login(formValue.email, formValue.password)
-    .then((res) => {
-      setFormValue({
-        email: '',
-        password: ''
+      .then((res) => {
+        localStorage.setItem('jwt', res.token);
+        setFormValue({
+          email: '',
+          password: ''
+        })
+        handleLogin();
+        navigate('/', {replace: true});
       })
-      handleLogin(formValue.email);
-      navigate('/', {replace: true});
-    })
-    .catch((error) =>{
-      console.log(error);
-    })
+      .catch((error) =>{
+        console.log(error);
+      })
   }
 
   // Обработчик изменений полей ввода

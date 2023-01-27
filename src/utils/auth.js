@@ -27,7 +27,6 @@ class Auth {
       body: JSON.stringify({ email, password })
     }).then(this._checkStatus)
       .then((data) => {
-        localStorage.setItem('jwt', data.token);
         return data;
       })
   }
