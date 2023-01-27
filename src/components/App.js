@@ -39,9 +39,8 @@ function App() {
 
   // Обработчик входа/выхода на сайте, проверка токена
 
-  function handleLogin(email) {
+  function handleLogin() {
     setLoggedIn(true);
-    // setUserEmail(email);
   }
 
   function handleLogout() {
@@ -57,8 +56,12 @@ function App() {
         .then((res) => {
           if (res) {
             setLoggedIn(true);
+            setUserEmail(res.data.email);
             navigate('/', {replace: true});
           }
+        })
+        .catch((error) => {
+          console.log(`Ошибка при получении данных: ${error}`);
         })
     }
   }
@@ -268,7 +271,7 @@ function App() {
         </Header>
 
         <Routes>
-          <Route path="/" 
+          <Route path="*" 
                  element={<ProtectedRouteElement 
                    element={Main}                                
                    loggedIn={loggedIn}                              
