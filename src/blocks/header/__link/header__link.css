@@ -17,3 +17,10 @@
 .header__link:active {
   opacity: .5;
 }
+
+@media screen and (max-width: 570px) {
+  .header__link {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

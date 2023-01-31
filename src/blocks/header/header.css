@@ -15,3 +15,10 @@
     padding-bottom: 28px;
   }
 }
+
+@media screen and (max-width: 570px) {
+  .header__logged-in {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+}

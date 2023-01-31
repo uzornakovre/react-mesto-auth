@@ -20,8 +20,6 @@ import { auth }               from '../utils/auth';
 
 function App() {
 
-  // TODO ID !!!!
-
   const [isEditProfilePopupOpen,  setEditProfilePopupState] = React.useState(false);
   const [isAddPlacePopupOpen,     setAddPlacePopupState   ] = React.useState(false);
   const [isEditAvatarPopupOpen,   setEditAvatarPopupState ] = React.useState(false);
@@ -258,7 +256,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
 
-        <Header>
+        <Header loggedIn={loggedIn}>
           <Routes>
             <Route path="/" element={
               <>

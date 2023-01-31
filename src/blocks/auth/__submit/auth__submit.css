@@ -30,7 +30,7 @@
 
 @media screen and (max-width: 570px) {
   .auth__submit {
-    margin-top: 45px;
+    margin-top: 140px;
     font-size: 14px;
     line-height: 17px;
   }
