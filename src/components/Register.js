@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthForm              from './AuthForm';
 import { auth }              from '../utils/auth';
 
-function Register() {
+function Register({ openInfoToolTip }) {
 
   const [formValue, setFormValue] = React.useState({ email: '', password: '' });
   const navigate = useNavigate();
@@ -16,9 +16,11 @@ function Register() {
 
     auth.register(formValue.email, formValue.password)
       .then(() => {
+        openInfoToolTip('confirm', 'Вы успешно зарегистрировались');
         navigate('/sign-in', {replace: true});
       })
       .catch((error) =>{
+        openInfoToolTip('error', 'Что-то пошло не так! Попробуйте еще раз.');
         console.log(error);
       })
   }

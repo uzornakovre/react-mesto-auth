@@ -17,6 +17,7 @@ import { Routes,
          Link,
          useNavigate }        from 'react-router-dom';
 import { auth }               from '../utils/auth';
+import InfoToolTip from './InfoToolTip';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
   const [isEditAvatarPopupOpen,   setEditAvatarPopupState ] = React.useState(false);
   const [isConfirmationPopupOpen, setConfirmationPopupOpen] = React.useState(false);
   const [isImagePopupOpen,        setImagePopupState      ] = React.useState(false);
+  const [infoToolTipState,        setInfoToolTipState     ] = React.useState({open: false});
   const [cardForRemove,           setCardForRemove        ] = React.useState({});
   const [selectedCard,            setSelectedCard         ] = React.useState({name: '', link: ''});
   const [currentUser,             setCurrentUser          ] = React.useState({});
@@ -208,6 +210,16 @@ function App() {
     }
   }
 
+  // Открытие модального окна подтверждения регистрации
+
+  function openInfoToolTip(type, message) {
+    setInfoToolTipState({
+      open:    true,
+      type:    type,
+      message: message
+    });
+  }
+
   // Закрытие модальных окон
 
   function closeAllPopups() {
@@ -217,6 +229,11 @@ function App() {
       setConfirmationPopupOpen(false);
       setImagePopupState(false);
       setSelectedCard({name: '', link: ''});
+      setInfoToolTipState({
+        open:    false,
+        type:    '',
+        message: ''
+      })
   }
 
   // Обработчик закрытия модальных окон по клику на оверлей
@@ -284,8 +301,9 @@ function App() {
                    onCardLike={handleCardLike}
                    cards={cards} />}
           />
-          <Route path="/sign-up" element={<Register />} />
-          <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/sign-up" element={<Register openInfoToolTip={openInfoToolTip} />} />
+          <Route path="/sign-in" element={<Login handleLogin={handleLogin}
+                                                 openInfoToolTip={openInfoToolTip} />} />
         </Routes>
 
         {loggedIn && <Footer />}
@@ -322,6 +340,13 @@ function App() {
         <ImagePopup card={selectedCard}
                     onClose={closeAllPopups}
                     onOverlayClick={handlePopupOverlayClick}
+        />
+
+        <InfoToolTip isOpen={infoToolTipState.open}
+                     type={infoToolTipState.type}
+                     message={infoToolTipState.message}
+                     onClose={closeAllPopups}
+                     onOverlayClick={handlePopupOverlayClick}
         />
 
       </div>

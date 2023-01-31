@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth }        from '../utils/auth';
 import AuthForm        from './AuthForm';
 
-function Login ({ handleLogin }) {
+function Login ({ handleLogin, openInfoToolTip }) {
 
   const [formValue,  setFormValue ] = React.useState({
     email: '',
@@ -27,6 +27,7 @@ function Login ({ handleLogin }) {
         navigate('/', {replace: true});
       })
       .catch((error) =>{
+        openInfoToolTip('error', 'Неверный логин или пароль.');
         console.log(error);
       })
   }
