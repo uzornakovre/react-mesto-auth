@@ -10,6 +10,7 @@ import EditProfilePopup       from './EditProfilePopup';
 import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
 import ProtectedRouteElement  from './ProtectedRoute';
+import useFormValues          from '../hooks/useFormValues';
 import { api }                from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes,
@@ -38,6 +39,7 @@ function App() {
   const [loggedIn,                setLoggedIn             ] = React.useState(false);
   const [userData,                setUserData             ] = React.useState({email: '', id: ''});
   const navigate                                            = useNavigate();
+  const formData                                            = useFormValues();
 
   // Обработчик входа/выхода на сайте, проверка токена
 
@@ -136,6 +138,7 @@ function App() {
   
   function handleAddPlaceClick() {
     setAddPlacePopupState(true);
+    // resetFormValues();
   }
 
   function handleAddPlaceSubmit(cardData) {
@@ -169,7 +172,7 @@ function App() {
 
   function handleCardDelete(card) {
     setCardRemoveIsLoading(true);
-    const isOwn = card.owner._id === userData._id;
+    const isOwn = card.owner._id === currentUser._id;
 
     if (isOwn) {
       api.deleteCard(card._id)
@@ -223,17 +226,18 @@ function App() {
   // Закрытие модальных окон
 
   function closeAllPopups() {
-      setAddPlacePopupState(false);
-      setEditProfilePopupState(false);
-      setEditAvatarPopupState(false);
-      setConfirmationPopupOpen(false);
-      setImagePopupState(false);
-      setSelectedCard({name: '', link: ''});
-      setInfoToolTipState({
-        open:    false,
-        type:    '',
-        message: ''
-      })
+    formData.resetFormValues();
+    setAddPlacePopupState(false);
+    setEditProfilePopupState(false);
+    setEditAvatarPopupState(false);
+    setConfirmationPopupOpen(false);
+    setImagePopupState(false);
+    setSelectedCard({name: '', link: ''});
+    setInfoToolTipState({
+      open:    false,
+      type:    '',
+      message: ''
+    })
   }
 
   // Обработчик закрытия модальных окон по клику на оверлей
@@ -320,6 +324,7 @@ function App() {
                        onAddPlace={handleAddPlaceSubmit}
                        isLoading={cardDataIsLoading}
                        onOverlayClick={handlePopupOverlayClick}
+                       formData={formData}
         />
 
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
