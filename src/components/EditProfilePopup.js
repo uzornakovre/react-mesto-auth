@@ -11,8 +11,6 @@ function EditProfilePopup({ isOpen,
 
   const currentUser = React.useContext(CurrentUserContext);
 
-  // Отправка формы
-
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateUser({
@@ -20,8 +18,6 @@ function EditProfilePopup({ isOpen,
       about: formData.values.description
     });
   }
-
-  // Значения полей ввода при открытии модального окна
  
   React.useEffect(() => {
     formData.setValues({

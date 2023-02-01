@@ -21,12 +21,6 @@ function useFormValues() {
     setIsValid(evt.target.closest('form').checkValidity());
   }
 
-  // const resetFormValues = React.useCallback(() => {
-  //   setValues({});
-  //   setErrors({});
-  //   setIsValid(false);
-  // }, [setValues, setErrors, setIsValid]);
-
   function resetFormValues() {
     setValues({});
     setErrors({});

@@ -8,8 +8,6 @@ function AddPlacePopup({ isOpen,
                          isLoading,
                          onOverlayClick }) {
 
-  // Отправка формы
-
   function handleSubmit(evt) {
     evt.preventDefault();
 
