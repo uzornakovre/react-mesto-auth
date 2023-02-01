@@ -9,16 +9,16 @@ import ImagePopup             from './ImagePopup';
 import EditProfilePopup       from './EditProfilePopup';
 import EditAvatarPopup        from './EditAvatarPopup';
 import ConfirmationPopup      from './ConfirmationPopup';
+import InfoToolTip            from './InfoToolTip';
 import ProtectedRouteElement  from './ProtectedRoute';
-import useFormValues          from '../hooks/useFormValues';
+import useFormData            from '../hooks/useFormData';
 import { api }                from '../utils/api';
+import { auth }               from '../utils/auth';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import { Routes,
          Route,
          Link,
          useNavigate }        from 'react-router-dom';
-import { auth }               from '../utils/auth';
-import InfoToolTip from './InfoToolTip';
 
 function App() {
 
@@ -39,7 +39,7 @@ function App() {
   const [loggedIn,                setLoggedIn             ] = React.useState(false);
   const [userData,                setUserData             ] = React.useState({email: '', id: ''});
   const navigate                                            = useNavigate();
-  const formData                                            = useFormValues();
+  const formData                                            = useFormData();
 
   // Обработчик входа/выхода на сайте, проверка токена
 
@@ -287,8 +287,18 @@ function App() {
                 >Выйти</button>
               </>
             } />
-            <Route path="/sign-up" element={<Link to="/sign-in" className="header__link">Войти</Link>} />
-            <Route path="/sign-in" element={<Link to="/sign-up" className="header__link">Регистрация</Link>} />
+            <Route path="/sign-up"
+                   element={<Link 
+                     to="/sign-in"
+                     className="header__link"
+                     onClick={formData.resetFormValues}>Войти</Link>}
+            />
+            <Route path="/sign-in" 
+                   element={<Link 
+                     to="/sign-up"
+                     className="header__link"
+                     onClick={formData.resetFormValues}>Регистрация</Link>}
+            />
           </Routes>
         </Header>
 
@@ -305,9 +315,13 @@ function App() {
                    onCardLike={handleCardLike}
                    cards={cards} />}
           />
-          <Route path="/sign-up" element={<Register openInfoToolTip={openInfoToolTip} />} />
+          <Route path="/sign-up" element={<Register openInfoToolTip={openInfoToolTip}
+                                                    formData={formData} />}
+          />
           <Route path="/sign-in" element={<Login handleLogin={handleLogin}
-                                                 openInfoToolTip={openInfoToolTip} />} />
+                                                 openInfoToolTip={openInfoToolTip}
+                                                 formData={formData} />}
+          />
         </Routes>
 
         {loggedIn && <Footer />}

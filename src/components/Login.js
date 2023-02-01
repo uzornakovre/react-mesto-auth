@@ -3,24 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { auth }        from '../utils/auth';
 import AuthForm        from './AuthForm';
 
-function Login ({ handleLogin, openInfoToolTip }) {
+function Login ({ handleLogin, openInfoToolTip, formData }) {
 
-  const [formValue,  setFormValue ] = React.useState({
-    email: '',
-    password: ''
-  })
   const navigate = useNavigate();
-
-  // Отправка формы
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    auth.login(formValue.email, formValue.password)
+    auth.login(formData.values.email, formData.values.password)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
-        setFormValue({
-          email: '',
+        formData.setValues({
+          email:    '',
           password: ''
         })
         handleLogin();
@@ -32,18 +26,9 @@ function Login ({ handleLogin, openInfoToolTip }) {
       })
   }
 
-  // Обработчик изменений полей ввода
-
-  function handleChange(evt) {
-    setFormValue({
-      ...formValue,
-      [evt.target.name]: evt.target.value
-    }) 
-  }
-
   return (
     <AuthForm handleSubmit={handleSubmit}
-              handleChange={handleChange}
+              formData={formData}
               headingText={'Вход'}
               submitText={'Войти'}
     />
