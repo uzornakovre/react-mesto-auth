@@ -3,16 +3,10 @@ import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup({ isOpen,
                            onClose,
+                           formData,
                            onUpdateAvatar,
                            isLoading,
                            onOverlayClick }) {
-
-  const avatarRef                     = React.useRef();
-  const [avatarLink,  setAvatarLink ] = React.useState('');
-  const [avInputInit, setAvInputInit] = React.useState(false);
-  const [avatarError, setAvatarError] = React.useState('');
-  const isValid                       = avatarError === '';
-
 
   // Отправка формы
 
@@ -20,24 +14,8 @@ function EditAvatarPopup({ isOpen,
     evt.preventDefault();
 
     onUpdateAvatar({
-      avatar: avatarRef.current.value
+      avatar: formData.values.avatarUrl
     })
-  }
-
-  // Обновление стейтов при повторном открытии модального окна
-
-  React.useEffect(() => {
-    setAvatarLink('');
-    setAvInputInit(false);
-    setAvatarError(avatarRef.current.validationMessage);
-  }, [isOpen])
-
-  // Обработчик изменения поля ввода
-
-  function handleChangeAvatar(evt) {
-    setAvatarLink(evt.target.value);
-    setAvInputInit(true);
-    setAvatarError(avatarRef.current.validationMessage);
   }
 
   return (
@@ -46,24 +24,23 @@ function EditAvatarPopup({ isOpen,
                    isOpen={isOpen}
                    onClose={onClose}
                    onSubmit={handleSubmit}
-                   isValid={isValid}
+                   isValid={formData.isValid}
                    isLoading={isLoading}
                    onOverlayClick={onOverlayClick}
     >
       <input type="url"
              className={`popup__form-input popup__form-input_content_avatar ${
-               avInputInit && !isValid && 'popup__form-input_error'
+               formData.errors.avatarUrl && 'popup__form-input_error'
              }`}
              id="avatar-url"
-             name="avatar-url"
+             name="avatarUrl"
              placeholder="Ссылка на аватар"
-             value={avatarLink || ''}
-             ref={avatarRef}
-             onChange={handleChangeAvatar}
+             value={formData.values.avatarUrl || ''}
+             onChange={formData.handleChange}
              required
       />
       <span className="popup__form-input-error popup__form-input-error_content_avatar">
-        {avInputInit && `${avatarError}`}  
+        {formData.errors.avatarUrl} 
       </span>  
     </PopupWithForm>
   )
