@@ -317,6 +317,7 @@ function App() {
                           onUpdateUser={handleUpdateUser}
                           isLoading={userDataIsLoading}
                           onOverlayClick={handlePopupOverlayClick}
+                          formData={formData}
         />
 
         <AddPlacePopup isOpen={isAddPlacePopupOpen}
@@ -332,6 +333,7 @@ function App() {
                          onUpdateAvatar={handleUpdateAvatar}
                          isLoading={avatarIsLoading}
                          onOverlayClick={handlePopupOverlayClick}
+                         formData={formData}
         />
 
         <ConfirmationPopup isOpen={isConfirmationPopupOpen}
