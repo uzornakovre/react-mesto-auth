@@ -17,8 +17,8 @@ class Auth {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({ email, password })
-    }).then(this._checkStatus);
-  }
+    }).then(res => res.json()); // Не использую здесь _checkStatus, чтобы в Register
+  }                             // через условие получить ответ с сервера и передать в ImageToolTip
 
   login(email, password) {
     return fetch(`${this._url}/signin`, {
@@ -26,9 +26,7 @@ class Auth {
       headers: this._headers,
       body: JSON.stringify({ email, password })
     }).then(this._checkStatus)
-      .then((data) => {
-        return data;
-      })
+      .then(data => data);
   }
 
   checkToken(token) {
@@ -38,9 +36,7 @@ class Auth {
         'Authorization': `Bearer ${token}`
       }
     }).then(this._checkStatus)
-      .then((data) => {
-        return data;
-      })
+      .then(data => data);
   }
 }
 

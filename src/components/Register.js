@@ -11,13 +11,15 @@ function Register({ openInfoToolTip, formData }) {
     evt.preventDefault();
 
     auth.register(formData.values.email, formData.values.password)
-      .then(() => {
-        openInfoToolTip('confirm', 'Вы успешно зарегистрировались');
-        navigate('/sign-in', {replace: true});
-      })
-      .catch((error) =>{
-        openInfoToolTip('error', 'Что-то пошло не так! Попробуйте еще раз.');
-        console.log(error);
+      .then((res) => {
+        if (!res.error && !res.message) {
+          openInfoToolTip('confirm', 'Вы успешно зарегистрировались');
+          navigate('/sign-in', {replace: true});
+        } else if (!res.error) {
+          openInfoToolTip('error', 'Вы ввели некорректный email. Попробуйте еще раз');
+        } else {
+          openInfoToolTip('error', res.error);
+        }
       })
   }
 
