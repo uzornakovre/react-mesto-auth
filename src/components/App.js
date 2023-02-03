@@ -260,7 +260,8 @@ function App() {
         isAddPlacePopupOpen     ||
         isEditAvatarPopupOpen   ||
         isConfirmationPopupOpen ||
-        isImagePopupOpen) {
+        isImagePopupOpen        ||
+        infoToolTipState.open === true) {
           document.addEventListener('keydown', handleEscClick);
         }     
       return () => {
@@ -270,7 +271,8 @@ function App() {
       isAddPlacePopupOpen,
       isEditAvatarPopupOpen,
       isConfirmationPopupOpen,
-      isImagePopupOpen]);
+      isImagePopupOpen,
+      infoToolTipState]);
 
   return (
 
