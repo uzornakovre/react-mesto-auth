@@ -261,7 +261,7 @@ function App() {
         isEditAvatarPopupOpen   ||
         isConfirmationPopupOpen ||
         isImagePopupOpen        ||
-        infoToolTipState.open === true) {
+        infoToolTipState.open) {
           document.addEventListener('keydown', handleEscClick);
         }     
       return () => {
