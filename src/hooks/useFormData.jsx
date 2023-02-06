@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 
 function useFormValues() {
-  const [values,  setValues ] = React.useState({});
-  const [errors,  setErrors ] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
+  const [values,  setValues ] = useState({});
+  const [errors,  setErrors ] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
   function handleChange(evt) {
     const { value, name } = evt.target;

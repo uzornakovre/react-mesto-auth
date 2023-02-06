@@ -1,9 +1,9 @@
-import React                   from 'react';
+import { useState, useEffect } from 'react';
 import headerLogo              from '../images/header__logo.svg';
 
 function Header({ loggedIn, children }) {
 
-  const [isBurgerMenuOpen, setBurgerMenuOpen] = React.useState(false);
+  const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   function toggleAccountInfo() {
     if (!isBurgerMenuOpen && loggedIn) {
@@ -11,7 +11,7 @@ function Header({ loggedIn, children }) {
     } else setBurgerMenuOpen(false);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setBurgerMenuOpen(false);
   }, [loggedIn]);
 

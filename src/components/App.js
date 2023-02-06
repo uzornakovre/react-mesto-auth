@@ -1,4 +1,5 @@
-import React                  from 'react';
+import { useState,
+         useEffect }          from 'react';
 import Header                 from './Header';
 import Main                   from './Main';
 import Register               from './Register';
@@ -22,22 +23,22 @@ import { Routes,
 
 function App() {
 
-  const [isEditProfilePopupOpen,  setEditProfilePopupState] = React.useState(false);
-  const [isAddPlacePopupOpen,     setAddPlacePopupState   ] = React.useState(false);
-  const [isEditAvatarPopupOpen,   setEditAvatarPopupState ] = React.useState(false);
-  const [isConfirmationPopupOpen, setConfirmationPopupOpen] = React.useState(false);
-  const [isImagePopupOpen,        setImagePopupState      ] = React.useState(false);
-  const [infoToolTipState,        setInfoToolTipState     ] = React.useState({open: false});
-  const [cardForRemove,           setCardForRemove        ] = React.useState({});
-  const [selectedCard,            setSelectedCard         ] = React.useState({name: '', link: ''});
-  const [currentUser,             setCurrentUser          ] = React.useState({});
-  const [cards,                   setCards                ] = React.useState([]);
-  const [userDataIsLoading,       setUserDataIsLoading    ] = React.useState(false);
-  const [avatarIsLoading,         setAvatarIsLoading      ] = React.useState(false);
-  const [cardDataIsLoading,       setCardDataIsLoading    ] = React.useState(false);
-  const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = React.useState(false);
-  const [loggedIn,                setLoggedIn             ] = React.useState(false);
-  const [userData,                setUserData             ] = React.useState({email: '', id: ''});
+  const [isEditProfilePopupOpen,  setEditProfilePopupState] = useState(false);
+  const [isAddPlacePopupOpen,     setAddPlacePopupState   ] = useState(false);
+  const [isEditAvatarPopupOpen,   setEditAvatarPopupState ] = useState(false);
+  const [isConfirmationPopupOpen, setConfirmationPopupOpen] = useState(false);
+  const [isImagePopupOpen,        setImagePopupState      ] = useState(false);
+  const [infoToolTipState,        setInfoToolTipState     ] = useState({open: false});
+  const [cardForRemove,           setCardForRemove        ] = useState({});
+  const [selectedCard,            setSelectedCard         ] = useState({name: '', link: ''});
+  const [currentUser,             setCurrentUser          ] = useState({});
+  const [cards,                   setCards                ] = useState([]);
+  const [userDataIsLoading,       setUserDataIsLoading    ] = useState(false);
+  const [avatarIsLoading,         setAvatarIsLoading      ] = useState(false);
+  const [cardDataIsLoading,       setCardDataIsLoading    ] = useState(false);
+  const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = useState(false);
+  const [loggedIn,                setLoggedIn             ] = useState(false);
+  const [userData,                setUserData             ] = useState({email: '', id: ''});
   const navigate                                            = useNavigate();
   const formData                                            = useFormData();
 
@@ -74,7 +75,7 @@ function App() {
 
   // Получение данных с сервера о пользователе и карточках, проверка токена
 
-  React.useEffect(() => {
+  useEffect(() => {
     tokenCheck();
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -250,7 +251,7 @@ function App() {
 
   // Обработчик закрытия модальных окон по нажатию Escape
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleEscClick(evt) {
       if (evt.key === 'Escape') {
         closeAllPopups();

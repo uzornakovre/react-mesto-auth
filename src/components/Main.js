@@ -1,4 +1,4 @@
-import React                  from 'react';
+import { useContext }         from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card                   from './Card.js';
 
@@ -10,7 +10,7 @@ function Main({ onEditProfile,
                 onCardLike,
                 cards }) {
 
-  const currentUser  = React.useContext(CurrentUserContext);
+  const currentUser  = useContext(CurrentUserContext);
   const cardElements = cards.map(card => (
     <li key={card._id}>
       <Card card={card}

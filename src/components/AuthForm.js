@@ -1,4 +1,3 @@
-import React       from 'react';
 import InfoToolTip from './InfoToolTip';
 
 function AuthForm({ handleSubmit, 

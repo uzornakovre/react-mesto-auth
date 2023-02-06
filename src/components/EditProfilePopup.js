@@ -1,4 +1,5 @@
-import React                  from 'react';
+import { useContext,
+         useEffect }          from 'react';
 import PopupWithForm          from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
@@ -9,7 +10,7 @@ function EditProfilePopup({ isOpen,
                             isLoading,
                             onOverlayClick }) {
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -19,7 +20,7 @@ function EditProfilePopup({ isOpen,
     });
   }
  
-  React.useEffect(() => {
+  useEffect(() => {
     formData.setValues({
       name:        currentUser.name,
       description: currentUser.about

@@ -1,4 +1,3 @@
-import React               from 'react';
 import infoToolTipError    from '../images/popup__tip-error.svg';
 import infoToolTipConfirm  from '../images/popup__tip-complete.svg';
 
