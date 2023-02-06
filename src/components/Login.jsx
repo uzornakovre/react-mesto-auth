@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom';
-import { auth }        from '../utils/auth';
-import AuthForm        from './AuthForm';
+import { useNavigate, Link } from 'react-router-dom';
+import { auth }              from '../utils/auth';
+import AuthForm              from './AuthForm';
 
 function Login ({ handleLogin, openInfoToolTip, formData }) {
 
@@ -30,7 +30,13 @@ function Login ({ handleLogin, openInfoToolTip, formData }) {
               formData={formData}
               headingText={'Вход'}
               submitText={'Войти'}
-    />
+    >
+      <p className="auth__tip">
+        Нет учетной записи? {<Link to="/sign-up" className="auth__link">
+                                Зарегистрироваться
+                             </Link>}
+      </p>
+    </AuthForm>
   );
 }
 

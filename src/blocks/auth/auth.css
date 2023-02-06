@@ -1,7 +1,9 @@
 .auth {
   max-width: 358px;
+  min-height: 581px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
 }
 
