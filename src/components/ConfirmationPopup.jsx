@@ -19,8 +19,8 @@ function ConfirmationPopup({ isOpen,
                    onClose={onClose}
                    onSubmit={handleSubmit}
                    isValid={true}
-                   isLoading={isLoading}
                    onOverlayClick={onOverlayClick}
+                   buttonText={isLoading ? 'Удаление карточки...' : 'Да'}
     >
     </PopupWithForm>
   )

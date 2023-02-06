@@ -25,8 +25,8 @@ function AddPlacePopup({ isOpen,
                    onClose={onClose}
                    onSubmit={handleSubmit}
                    isValid={formData.isValid}
-                   isLoading={isLoading}
                    onOverlayClick={onOverlayClick}
+                   buttonText={isLoading ? 'Создание карточки...' : 'Создать'}
     >
       <input type="text"
              className={`popup__form-input popup__form-input_content_place ${

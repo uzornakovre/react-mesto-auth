@@ -4,7 +4,7 @@ function PopupWithForm({ name,
                          onClose,
                          onSubmit,
                          isValid,
-                         isLoading,
+                         buttonText,
                          onOverlayClick,
                          children }) {
 
@@ -31,10 +31,7 @@ function PopupWithForm({ name,
                   className={`popup__form-submit ${!isValid && 'popup__form-submit_disabled'}`}
                   disabled={!isValid}
           >
-            {name === 'edit-profile' && (isLoading ? 'Сохранение...'        : 'Сохранить')}
-            {name === 'new-place'    && (isLoading ? 'Создание карточки...' : 'Создать'  )}
-            {name === 'avatar'       && (isLoading ? 'Сохранение...'        : 'Сохранить')}
-            {name === 'delete-card'  && (isLoading ? 'Удаление карточки...' : 'Да'       )}
+            {buttonText}
           </button>
         </form>
       </div>

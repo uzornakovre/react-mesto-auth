@@ -22,8 +22,8 @@ function EditAvatarPopup({ isOpen,
                    onClose={onClose}
                    onSubmit={handleSubmit}
                    isValid={formData.isValid}
-                   isLoading={isLoading}
                    onOverlayClick={onOverlayClick}
+                   buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
     >
       <input type="url"
              className={`popup__form-input popup__form-input_content_avatar ${
