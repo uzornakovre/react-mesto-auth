@@ -15,7 +15,7 @@ import ProtectedRouteElement  from './ProtectedRoute';
 import useFormData            from '../hooks/useFormData';
 import { api }                from '../utils/api';
 import { auth }               from '../utils/auth';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { Routes,
          Route,
          Link,
