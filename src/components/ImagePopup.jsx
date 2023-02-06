@@ -2,7 +2,7 @@ function ImagePopup({ card, onClose, onOverlayClick }) {
 
   return (
     <div className={`popup popup_type_image ${
-          card.name !== '' && card.link !== '' ? "popup_opened" : ""
+          card.name && card.link ? "popup_opened" : ""
          }`}
          onMouseDown={onOverlayClick}
     >
