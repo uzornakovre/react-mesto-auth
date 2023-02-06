@@ -33,10 +33,7 @@ function App() {
   const [selectedCard,            setSelectedCard         ] = useState({name: '', link: ''});
   const [currentUser,             setCurrentUser          ] = useState({});
   const [cards,                   setCards                ] = useState([]);
-  const [userDataIsLoading,       setUserDataIsLoading    ] = useState(false);
-  const [avatarIsLoading,         setAvatarIsLoading      ] = useState(false);
-  const [cardDataIsLoading,       setCardDataIsLoading    ] = useState(false);
-  const [cardRemoveIsLoading,     setCardRemoveIsLoading  ] = useState(false);
+  const [isLoading,               setIsLoading            ] = useState(false);
   const [loggedIn,                setLoggedIn             ] = useState(false);
   const [userData,                setUserData             ] = useState({email: '', id: ''});
   const navigate                                            = useNavigate();
@@ -45,7 +42,7 @@ function App() {
   // Обработчик входа/выхода на сайте, проверка токена
 
   function handleLogin() {
-    tokenCheck();
+    setLoggedIn(true);
   }
 
   function handleLogout() {
@@ -92,7 +89,7 @@ function App() {
   // Обработчик обновления данных о пользователе
 
   function handleUpdateUser(userData) {
-    setUserDataIsLoading(true);
+    setIsLoading(true);
     api.changeUserInfo(userData)
       .then((newUserData) => {
         setCurrentUser(newUserData)
@@ -102,14 +99,14 @@ function App() {
         console.log(`Ошибка при изменении данных о пользователе: ${error}`);
       })
       .finally(() => {
-        setUserDataIsLoading(false);
+        setIsLoading(false);
       })
   }
 
   // Обработчик обновления аватара пользователя
 
   function handleUpdateAvatar(userData) {
-    setAvatarIsLoading(true);
+    setIsLoading(true);
     api.changeUserAvatar(userData)
       .then((newUserData) => {
         setCurrentUser(newUserData);
@@ -119,7 +116,7 @@ function App() {
         console.log(`Ошибка при изменении аватара: ${error}`);
       })
       .finally(() => {
-        setAvatarIsLoading(false);
+        setIsLoading(false);
       })
   }
 
@@ -143,7 +140,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(cardData) {
-    setCardDataIsLoading(true);
+    setIsLoading(true);
     api.createCard(cardData)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -153,7 +150,7 @@ function App() {
         console.log(`Ошибка при создании новой карточки: ${error}`);
       })
       .finally(() => {
-        setCardDataIsLoading(false);
+        setIsLoading(false);
       })
   }
 
@@ -172,7 +169,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    setCardRemoveIsLoading(true);
+    setIsLoading(true);
     const isOwn = card.owner._id === currentUser._id;
 
     if (isOwn) {
@@ -185,7 +182,7 @@ function App() {
           console.log(`Ошибка при удалении карточки: ${error}`);
         })
         .finally(() => {
-          setCardRemoveIsLoading(false);
+          setIsLoading(false);
         })
     }
   }
@@ -332,7 +329,7 @@ function App() {
         <EditProfilePopup isOpen={isEditProfilePopupOpen}
                           onClose={closeAllPopups}
                           onUpdateUser={handleUpdateUser}
-                          isLoading={userDataIsLoading}
+                          isLoading={isLoading}
                           onOverlayClick={handlePopupOverlayClick}
                           formData={formData}
         />
@@ -340,7 +337,7 @@ function App() {
         <AddPlacePopup isOpen={isAddPlacePopupOpen}
                        onClose={closeAllPopups}
                        onAddPlace={handleAddPlaceSubmit}
-                       isLoading={cardDataIsLoading}
+                       isLoading={isLoading}
                        onOverlayClick={handlePopupOverlayClick}
                        formData={formData}
         />
@@ -348,7 +345,7 @@ function App() {
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen}
                          onClose={closeAllPopups}
                          onUpdateAvatar={handleUpdateAvatar}
-                         isLoading={avatarIsLoading}
+                         isLoading={isLoading}
                          onOverlayClick={handlePopupOverlayClick}
                          formData={formData}
         />
@@ -357,7 +354,7 @@ function App() {
                            onClose={closeAllPopups}
                            onConfirmDelete={handleCardDelete}
                            currentCard={cardForRemove}
-                           isLoading={cardRemoveIsLoading}
+                           isLoading={isLoading}
                            onOverlayClick={handlePopupOverlayClick}
         />
 
