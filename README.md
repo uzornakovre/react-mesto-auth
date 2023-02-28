@@ -1,6 +1,6 @@
 # :small_orange_diamond: Интерактивный сайт "Mesto"
 *Проектная работа на курсе в Яндекс Практикум*  
-*Портировано на React.js с [:link: предыдущего проекта](https://uzornakovre.github.io/mesto/)*
+*Портировано на React.js с [:link: предыдущего проекта](https://github.com/uzornakovre/mesto)*
 ______
 
 Mesto - это сервис, который позволяет пользователю загружать фотографии с описанием и получать обратную связь в виде лайков. 
@@ -28,7 +28,13 @@ ______
 Для входа на главную страницу необходимо зарегистрироваться или ввести данные существующей учетной записи:  
 **Почта:**  tony_stark@mail.com  
 **Пароль:** kkkk
-______
+______  
+
+Другие версии проекта:    
+[:link: Mesto [Vanilla JS, ООП, без авторизации]](https://github.com/uzornakovre/mesto)    
+[:link: Mesto [React JS, без авторизации]](https://github.com/uzornakovre/mesto-react)
+
+______   
 
 [:link: Просмотреть страницу в GitHub Pages](https://uzornakovre.github.io/react-mesto-auth/)  
 [:link: Открыть макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
